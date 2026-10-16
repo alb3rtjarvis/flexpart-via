@@ -61,7 +61,7 @@ FLEXPART simulates the transport of particles, and with each particle is an asso
 
 #### Viability Fits
 
-We incorporate 3 different viability fits, 1 of which has been used in Lagrangian models previously ([Isard et al., 2005](https://doi.org/10.1641/0006-3568(2005)055[0851:POTAPF]2.0.CO;2); [Meyer et al., 2026](https://doi.org/10.5194/gmd-19-1587-2026)) and 2 that, to the best of our knowledge, have not been used in a Lagrangian model before. All of these fits depend on time and space (3D) UV as UV is the dominant contributor to decay of viable material. Both RH and temperature most likely also contribute to decay of viable material, but for spores like we study here, their effects are poorly understood. While we don’t have exact fits for viability dependence on UV, it is assumed that the dependence takes an exponential-like form. For each of these fits, let $M(t, \mathbf{x}(t))$ represent the mass of a particle at time $t$ and position $\mathbf{x}(t)$, and let $D = D(t, \mathbf{x}(t))$ represent that particle’s accumulated solar radiation.
+We incorporate 3 different viability fits, 1 of which has been used in Lagrangian models previously ([Isard et al., 2005](https://doi.org/10.1641/0006-3568(2005)055[0851:POTAPF]2.0.CO;2); [Meyer et al., 2026](https://gmd.copernicus.org/articles/19/4857/2026/)) and 2 that, to the best of our knowledge, have not been used in a Lagrangian model before. All of these fits depend on time and space (3D) UV as UV is the dominant contributor to decay of viable material. Both RH and temperature most likely also contribute to decay of viable material, but for spores like we study here, their effects are poorly understood. While we don’t have exact fits for viability dependence on UV, it is assumed that the dependence takes an exponential-like form. For each of these fits, let $M(t, \mathbf{x}(t))$ represent the mass of a particle at time $t$ and position $\mathbf{x}(t)$, and let $D = D(t, \mathbf{x}(t))$ represent that particle’s accumulated solar radiation.
 
 ##### Single-stage Exponential
 
@@ -91,15 +91,15 @@ Where $k_1$, $k_2$, and $f$ are all the same as in the two stage, and $n_1$ char
 
 #### Calculating Instantaneous 3D Solar Radiation
 
-All viability fits depend on accumulated solar radiation along particle trajectories, requiring accurate space- and time-dependent instantaneous solar radiation. While Numerical Weather Prediction (NWP) models calculate 3D radiation under the hood to determine atmospheric heating rates, these 3D shortwave flux fields are not archived in standard user-facing outputs. Consequently, most general-purpose Lagrangian models either omit this variable or use overly simplified methods. For instance, the native chemistry module in FLEXPART computes photolysis rates solely as a function of the solar zenith angle, ignoring cloud cover, cloud thickness, and atmospheric attenuation. While standalone Radiative Transfer Models (RTMs) like TUV ([Madronich & Flocke, 1999](https://doi.org/10.1007/978-94-017-1740-3_1)) provide high accuracy, running them inline for millions of particles is computationally prohibitive. 
+All viability fits depend on accumulated solar radiation along particle trajectories, requiring accurate space- and time-dependent instantaneous solar radiation. While Numerical Weather Prediction (NWP) models calculate 3D radiation under the hood to determine atmospheric heating rates, these 3D shortwave flux fields are not archived in standard user-facing outputs. Consequently, most general-purpose Lagrangian models either omit this variable or use overly simplified methods. For instance, the native chemistry module in FLEXPART computes photolysis rates solely as a function of the solar zenith angle, ignoring cloud cover, cloud thickness, and atmospheric attenuation. While standalone Radiative Transfer Models (RTMs) like TUV ([Madronich & Flocke, 1999](https://doi.org/10.1007/978-3-540-69044-3_1)) provide high accuracy, running them inline for millions of particles is computationally prohibitive. 
 
-To evaluate viability across different levels of physical realism, we implement three methods in FLEXPART: two existing approximations that lead to systematic under- or overestimations ([Isard et al., 2005](https://doi.org/10.1641/0006-3568(2005)055[0851:POTAPF]2.0.CO;2); [Meyer et al., 2026](https://doi.org/10.5194/gmd-19-1587-2026)), and our own hybrid approach.
+To evaluate viability across different levels of physical realism, we implement three methods in FLEXPART: two existing approximations that lead to systematic under- or overestimations ([Isard et al., 2005](https://doi.org/10.1641/0006-3568(2005)055[0851:POTAPF]2.0.CO;2); [Meyer et al., 2026](https://gmd.copernicus.org/articles/19/4857/2026/)), and our own hybrid approach.
 
 ##### Surface Solar Radiation (Isard)
 In the seminal Isard paper on soybean rust ([Isard et al., 2005](https://doi.org/10.1641/0006-3568(2005)055[0851:POTAPF]2.0.CO;2)), they use 2D surface solar radiation ($SSR$) directly as a proxy for the radiation received by particles aloft. While better than a static half-life, this method significantly underestimates the radiation received by particles aloft: a particle flying in clear air high above a thick cloud deck is assigned the same darkened value as the surface, despite being exposed to intense unshielded sunlight. We implement this in FLEXPART as the `SSR` method for comparison.
 
 ##### AgPaDS Height-dependent 3D Radiation
-In the AgPaDS software ([Meyer et al., 2026](https://doi.org/10.5194/gmd-19-1587-2026)), they adjust the surface solar radiation using a linear height-scaling factor:
+In the AgPaDS software ([Meyer et al., 2026](https://gmd.copernicus.org/articles/19/4857/2026/)), they adjust the surface solar radiation using a linear height-scaling factor:
 
 $$SR(t, \mathbf{x}) = SSR(t, \mathbf{x}) + \left[SSR(t, \mathbf{x}) \cdot H \cdot \text{AltScale}\right]$$
 
@@ -114,7 +114,7 @@ In an attempt to find a middle ground between these approximations, we implement
 
   If the particle is above a cloud, we use a fixed clear-sky transmittance $T_{atm} = 0.75$. If there are no clouds in the column, we set $T_{atm} = \min(1.0, SSR / SR_{TOA})$ to dynamically match ERA5 surface conditions at the ground.
 
-* **In cloud:** Inside a cloud layer ($\eta_{TOC} < \eta < \eta_{BOC}$), multiple Mie scattering dominates. Following two-stream approximations for non-absorbing media ([Meador & Weaver, 1980](https://doi.org/10.1175/1520-0469(1980)037<0630:TATRTI>2.0.CO;2)), flux decays diffusively, which we approximate with a linear interpolation between the cloud top ($SR_{TOC}$) and cloud bottom ($SR_{BOC}$):
+* **In cloud:** Inside a cloud layer ($\eta_{TOC} < \eta < \eta_{BOC}$), multiple Mie scattering dominates. Following two-stream approximations for non-absorbing media ([Meador & Weaver, 1980](https://doi.org/10.1175/1520-0469(1980)037<0630:TSATRT>2.0.CO;2)), flux decays diffusively, which we approximate with a linear interpolation between the cloud top ($SR_{TOC}$) and cloud bottom ($SR_{BOC}$):
 
   $$SR = SR_{TOC} \cdot (1 - f_{\text{depth}}) + SR_{BOC} \cdot f_{\text{depth}}$$
 
@@ -147,9 +147,9 @@ Again, consult the FLEXPART docs for details on setting up simulations (see [Con
 
 - `INTERP_VIA_METHOD`:
     * `0`: No UV interp is performed, this should be set if viability is not being calculated
-    * `1`: Surface Solar Radiation (SSR); this uses surface solar radiation as a proxy for 3D solar radiation (what was used in the Isard paper) (default)
+    * `1`: [Surface Solar Radiation (SSR)](#surface-solar-radiation-(isard)); this uses surface solar radiation as a proxy for 3D solar radiation (what was used in the Isard paper) (default)
     * `2`: [AgPaDS method](#agpads-height-dependent-3d-radiation)
-    * `3`: [FLEX-VIA method](#flexpart-via-height-and-cloud dependent-3d-radiation)
+    * `3`: [FLEX-VIA method](#flexpart-via-height-and-cloud-dependent-3d-radiation)
     * `uint`: Set to any positive int if using `VIABILITY_FIT = 0`, then: Constant exponential per/hr decay rate with value `real(INTERP_VIA_METHOD) / 1000.0`
 
 ## Example
