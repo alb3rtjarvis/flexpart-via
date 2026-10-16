@@ -137,7 +137,7 @@ This approximation is far from perfect. There are a number of simplifications ma
 
 ### Using FLEXPART-VIA
 
-Again, consult the FLEXPART docs for details on setting up simulations (see [Configuration](https://flexpart.img.univie.ac.at/docs/configuration.html)). FLEXPART-VIA simply adds a number of extra parameters and flags to be set in the COMMAND file. These are listed below with their possible values.
+Consult the FLEXPART docs for details on setting up simulations (see [Configuration](https://flexpart.img.univie.ac.at/docs/configuration.html)). FLEXPART-VIA simply adds a number of extra parameters and flags to be set in the COMMAND file. These are listed below with their possible values.
 
 - `VIABILITY_FIT`: Determines which viability method is used. Valid values:
     * `0`: Constant decay Exponential; this is what FLEXPART natively implements, added for comparison and debugging
@@ -147,10 +147,15 @@ Again, consult the FLEXPART docs for details on setting up simulations (see [Con
 
 - `INTERP_VIA_METHOD`:
     * `0`: No UV interp is performed, this should be set if viability is not being calculated
-    * `1`: [Surface Solar Radiation (SSR)](#surface-solar-radiation-isard); this uses surface solar radiation as a proxy for 3D solar radiation (what was used in the Isard paper) (default)
+    * `1`: [Surface Solar Radiation (SSR)](#surface-solar-radiation-(isard)); this uses surface solar radiation as a proxy for 3D solar radiation (what was used in the Isard paper) (default)
     * `2`: [AgPaDS method](#agpads-height-dependent-3d-radiation)
     * `3`: [FLEX-VIA method](#flexpart-via-height-and-cloud-dependent-3d-radiation)
     * `uint`: Set to any positive int if using `VIABILITY_FIT = 0`, then: Constant exponential per/hr decay rate with value `real(INTERP_VIA_METHOD) / 1000.0`
+    
+- `K_ISARD`: Value of $k_1$ in exponential fits, should be positive real
+- `K2_SLOW`: Value of slower decay rate $k_2$ in two-stage exponential fits, should be positive real
+- `STRONG_FRAC`: Value of resilient fraction $f$ in two-stage exponential fits, should be positive real $\in (0, 1)$
+- `N1_S`: Value of shoulder exponent in two-stage exponential with shoulder fit, should be positive int
 
 ## Example
 
