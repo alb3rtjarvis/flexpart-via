@@ -147,7 +147,7 @@ Consult the FLEXPART docs for details on setting up simulations (see [Configurat
 
 - `INTERP_VIA_METHOD`:
     * `0`: No UV interp is performed, this should be set if viability is not being calculated
-    * `1`: [Surface Solar Radiation (SSR)](#surface-solar-radiation-(isard)); this uses surface solar radiation as a proxy for 3D solar radiation (what was used in the Isard paper) (default)
+    * `1`: [Surface Solar Radiation (SSR)](#surface-solar-radiation-isard); this uses surface solar radiation as a proxy for 3D solar radiation (what was used in the Isard paper) (default)
     * `2`: [AgPaDS method](#agpads-height-dependent-3d-radiation)
     * `3`: [FLEX-VIA method](#flexpart-via-height-and-cloud-dependent-3d-radiation)
     * `uint`: Set to any positive int if using `VIABILITY_FIT = 0`, then: Constant exponential per/hr decay rate with value `real(INTERP_VIA_METHOD) / 1000.0`
