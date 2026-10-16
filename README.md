@@ -1,9 +1,12 @@
 # FLEXPART-VIA
 
-FLEXPART-VIA (FLEXPART-Viability) is a branch off of the FLEXPART 11 FORTRAN library that implements a number of additional viability fits with the aim of better capturing the decay in viability of bio-aerosol particles due to meteorological conditions. 
+FLEXPART-VIA (FLEXPART-Viability) is a branch off of the FLEXPART 11 model that implements a number of additional viability fits with the aim of better capturing the decay in viability of bio-aerosol particles due to meteorological conditions. 
 
-> [!WARNING]  
-> FLEXPART-VIA is currently in Alpha. Further organization and optimization of the new implementations are planned in future updates. Only light testing has been performed thus far.
+> [!IMPORTANT]  
+> **Research Code / Alpha Status**  
+> FLEXPART-VIA was developed as part of a research project on the atmospheric transport and viability of bio-aerosols. It is made publicly available in the hope that it will be useful to other researchers, but it should be considered **Alpha** software with limited testing. 
+> 
+> While organizational improvements, optimizations, or bug fixes may occur, this repository is intended primarily to support published research and is **not actively maintained or synchronized with future upstream FLEXPART releases**. Use at your own discretion.
 
 FLEXPART v11 Repository: [gitlab.phaidra.org/flexpart](https://gitlab.phaidra.org/flexpart/flexpart)
 
@@ -12,7 +15,7 @@ Documentation for FLEXPART v11: [flexpart.img.univie.ac.at/docs/index.html](http
 FLEXPART v11 README: [README](README_FLEXPART.md)
 
 > [!NOTE]
-> The authors of this FLEXPART-VIA branch have no affiliation with the creators and maintainers of the main FLEXPART branch, though we are grateful for all the work they do and 
+> The authors of this FLEXPART-VIA branch have no affiliation with the creators and maintainers of the main FLEXPART model, though we are grateful for all the work they do to provide and support this tool for the scientific community. Any issues or questions regarding the viability implementations should be directed here rather than to the upstream team.
 
 
 
